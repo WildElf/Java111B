@@ -2,7 +2,8 @@
 //  Demonstrates the use of image icons in labels.
 //********************************************************************
 /**
-  Displays a series of JLabels with a mix of images & matching text
+  Displays a series of JLabels inside a JFrame
+  with a mix of images & matching text
   * @author  Eric Zimmerman
   * @since   2015-01-28
 */
@@ -25,7 +26,7 @@ public class LabelDemo2
       ImageIcon icon2 = new ImageIcon ("dukesmooth.jpg");
       ImageIcon icon3 = new ImageIcon ("duketop.jpg");
       ImageIcon icon4 = new ImageIcon ("dukedown.jpg");
-      ImageIcon spacer = new ImageIcon ("spacer.png");
+      ImageIcon spacer = new ImageIcon ("spacer.jpg");
 
       JLabel label1, label2, label3, label4, label5, spaceLabel;
 
