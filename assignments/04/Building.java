@@ -1,11 +1,12 @@
 /**
   Creates a building object of
   specified size, position, and color
-  with random windows generated within
+  Random windows generated within, 
+  using contrasting color scheme
 #########################################
   @author: E. Jo Zimmerman
-  @version: 1.0
-  @since: 2015-02-04
+  @version: 2.0
+  @since: 2015-02-09
 */
 
 import javax.swing.*;
@@ -91,23 +92,24 @@ public class Building
   
   // create a series of windows fitting the building size
   private void makeWindows(Graphics wind)
-  {
+  {    
+    // set window size
     final int WIN_WIDTH = 3;
     final int WIN_HEIGHT = 3;
-    // random chances windows are not visible
-    Random rand = new Random(System.nanoTime());
-    int windowOut, floorOut;
     
+    // random chances windows are not visible
+    Random rand = new Random();
+    int windowOut, floorOut;
+
     // determine number of windows by building size
     int windowsAcross = width/(WIN_WIDTH+2);
     int floors = height/(WIN_HEIGHT+2);
     
     // window positioners
     int windowX, windowY;
-    
-    // prep & draw
-    Color windowColor = Color.yellow;
-    wind.setColor(windowColor);
+        
+    // prep color for drawing
+    wind.setColor(setWindowColor(color));
 
     // nest loop: i = y axis, j = x axis;
     for (int i = 0; i < floors; i++)
@@ -127,10 +129,22 @@ public class Building
             windowX = x + (j * (WIN_WIDTH+2)) + 1;
             wind.fillRect(windowX, windowY, WIN_WIDTH, WIN_HEIGHT);
           } // end if window chance
-        } // end for j/x coord loop
+        } // end for j (x co-ord) loop
         
       } // end if floorOut
-    } // end for i/y coord loop
+    } // end for i (y co-ord) loop
     
+  }
+  
+  // ensure a contrasting window color
+  // small selection here based on SkylinePanel class building colors
+  private Color setWindowColor(Color buildColor)
+  {
+     if (buildColor == Color.gray)
+       return Color.cyan;
+     else if (buildColor == Color.darkGray)
+       return Color.orange;
+     else
+       return Color.yellow;
   }
 }

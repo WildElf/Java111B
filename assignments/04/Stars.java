@@ -1,10 +1,12 @@
 /**
   Creates a star background
-  Accepts a factor of 10 scale
-#########################################
+  Using theme(int) as a multiplier
+  so that the brighter the sky, fewer stars
+  Also draws 10% of stars brighter
+###########################################
   @author: E. Jo Zimmerman
   @version: 1.0
-  @since: 2015-02-04
+  @since: 2015-02-09
 */
 import javax.swing.*;
 import java.awt.*;
@@ -13,15 +15,15 @@ import java.util.Random;
 public class Stars
 {
   private int populationFactor;
-  private Random rand = new Random(System.nanoTime());
+  private Random rand = new Random();
   private int screenWidth;
   private int screenHeight;
   
-  public Stars(int width, int height)
+  public Stars(int width, int height, int factor)
   {
     screenWidth = width;
     screenHeight = height;
-    populationFactor = 6000;
+    populationFactor = 200 * (factor*factor + 1);
   }
   
   public void draw(Graphics g)
@@ -30,9 +32,19 @@ public class Stars
     for (int down = 0; down < screenHeight; down++)
       for (int across = 0; across < screenWidth; across++)
       {
-        if (rand.nextInt(populationFactor) <= 1)
+        // stars get less likely the closer to the bottom
+        if (rand.nextInt(populationFactor + (down * 100)) < 1)
+        {
           g.drawLine(across, down, across, down);
-          
+          // 1 in 10 stars is a brighter star
+          if (rand.nextInt(10) == 0)
+          {
+            g.drawRect(across-1,down-1,2,2);
+            
+            g.drawLine(across-3, down, across+3, down);
+            g.drawLine(across,down+3,across, down-3);
+          }
+        }
       }
   }
 }

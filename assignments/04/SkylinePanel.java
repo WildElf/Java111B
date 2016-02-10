@@ -2,10 +2,14 @@
   Creates building objects in a JPanel extension
   Draws buildings and background when called 
   by a frame.getContentPane() method
+  Uses a theme(int) to determine color palette
+  Creates buildings of random (constrained) sizes
+  going left to right until off the screen
+  Draws a gradient horizon over the background
 #################################################
   @author: E. Jo Zimmerman
-  @version: 1.0
-  @since: 2015-02-04
+  @version: 2.0
+  @since: 2015-02-09
 */
 
 import javax.swing.*;
@@ -20,7 +24,6 @@ public class SkylinePanel extends JPanel
    private Color backColor;
    private Color horizonColor;
    private Stars stars;
-   private Random rand;
    
    final int GROUND = 190;
    final int SCREEN_WIDTH = 300;
@@ -29,13 +32,14 @@ public class SkylinePanel extends JPanel
    //-----------------------------------------------------------------
    //  Constructor: Creates five building objects.
    //-----------------------------------------------------------------
-   public SkylinePanel()
+   public SkylinePanel(int theme)
    {
-      buildColor = foreground(1);
-      backColor = background(1);
-      horizonColor = horizon(1);
+      Random rand = new Random();
+         	  
+      buildColor = foreground(theme);
+      backColor = background(theme);
+      horizonColor = horizon(theme);
       
-      rand = new Random(System.nanoTime());
       
       int xMark = 0;
       int yTall;
@@ -52,7 +56,7 @@ public class SkylinePanel extends JPanel
         
         xMark += xWide;
       }
-      stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT);
+      stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, theme);
       setPreferredSize (new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
       setBackground (backColor);
    }
@@ -77,69 +81,65 @@ public class SkylinePanel extends JPanel
    
    void horizonGlow(Graphics hg)
    {
-       final int R = horizonColor.getRed();
-       final int G = horizonColor.getGreen();
-       final int B = horizonColor.getBlue();
-       
-       final int deltaR = R - backColor.getRed();
-       final int deltaG = G - backColor.getGreen();
-       final int deltaB = B - backColor.getBlue();
-       
-       int curR, curG, curB;       
-       float changeDelta;
-       
-       for (int glow = 0; glow > GROUND; glow++)
-       {
-         changeDelta = (float)glow / GROUND;
 
-		 // deltaR starts at 200, ends at 100
-		 // R = 200; backR = 100
-		 // deltaR = (R-bR) = 100
-		 // G = 50, backG = 150
-		 // deltaG = (G-bG) = -100
-         curR = R - (deltaR * glow);
-         curG = G - (deltaG * glow);
-         curB = B - (deltaB * glow);
-         // this should work?
+     final int R = horizonColor.getRed();
+     final int G = horizonColor.getGreen();
+     final int B = horizonColor.getBlue();
+
+     final int deltaR = R - backColor.getRed();
+     final int deltaG = G - backColor.getGreen();
+     final int deltaB = B - backColor.getBlue();
+       
+     int curR, curG, curB;       
+     float changeDelta;
+       
+     for (int glow = 0; glow < GROUND; glow++)
+     {
+       // grows closer & closer to 1
+       changeDelta = (float)glow / GROUND;
+
+       curR = R - (int)(deltaR * changeDelta);
+       curG = G - (int)(deltaG * changeDelta);
+       curB = B - (int)(deltaB * changeDelta);
+
+       hg.setColor(new Color(curR, curG, curB));
+       hg.drawLine(0, GROUND-glow, SCREEN_WIDTH, GROUND-glow);
          
-/*         deltaR = (int)(R * changeDelta);
-         deltaG = (int)(G * changeDelta);
-         deltaB = (int)(B * changeDelta);
-*/
-         hg.setColor(new Color(curR, curG, curB));
-         hg.drawLine(0, GROUND-glow, SCREEN_WIDTH, GROUND-glow);
-         
-       }
+     }
        
    }
    
+   // sets horizon color based on theme
    Color horizon(int theme)
    {
      switch (theme) {
-       case 0: return new Color(153, 0, 153);
-       case 1: return new Color(193, 193, 124);
-       case 2: return new Color(255, 200, 240);
+       case 0: return new Color(193, 193, 124);
+       case 1: return new Color(153, 0, 153);
+       case 2: return new Color(255, 150, 200);
        default: return Color.yellow;
      }
    }
    
+   // sets background color based on theme
    Color background(int theme)
    {
      switch (theme) {
-       case 0: return new Color(25, 0, 25);
-       case 1: return Color.black;
+       case 0: return Color.black;
+       case 1: return new Color(10, 0, 50);
        case 2: return Color.cyan;
        default: return Color.black;
      }
    }
    
+   // sets building color based on theme
+   // building colors used as basis for window color in Building class
    Color foreground(int theme)
    {
      switch (theme) {
-       case 0: return Color.black;
-       case 1: return Color.gray;
+       case 0: return Color.darkGray;
+       case 1: return Color.black;
        case 2: return Color.gray;
-       default: return Color.darkGray;
+       default: return (Color.darkGray).darker();
      }
    }
 }
