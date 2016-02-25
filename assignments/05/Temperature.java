@@ -1,10 +1,16 @@
 /**
   Temperature.java
+  Stores a temperature & scale type
+  with 4 constructors
+  Has methods to return temperatures
+  regardless of stored type,
+  update type and/or temperature
 #########################################
   @author: E. Jo Zimmerman
   @version: 1.0
   @since: 2015-02-10
 */
+
 import java.lang.*;
 import java.util.*;
 
@@ -104,27 +110,32 @@ public class Temperature
     set(temp);
   }
   
+  // tests temperature from calling object against parameter object
+  // and returns true if they are equal (to 1 decimal point precision)
   public boolean equals(Temperature temp2)
   {
     // this operator as "temp1"
     return (Math.abs(this.getF() - temp2.getF()) < 0.01);
   }
   
+  // returns the temperature & type as a string
   public String toString()
   {
     return Double.toString(temperature) + "˚" + type;  
   }
   
+  // takes user input for temperature and scale type
+  // for extraordinary credit
   public void readInput()
   {
     Scanner tempStr = new Scanner(System.in);
     
     System.out.println("Enter degrees: ");
-    temperature = Double.parseDouble(tempStr.next());
+    set(Double.parseDouble(tempStr.next()));
     
     System.out.println("Enter temperature scale (F/C): ");
     String scale = tempStr.next();
-    type = Character.toUpperCase(scale.charAt(0));
+    set(scale.charAt(0));
     
   }
    
