@@ -17,3 +17,5 @@ output*
 *.prog
 *.class
 examples/*
+makefile
+assignments/06_Spaceship/examples/
