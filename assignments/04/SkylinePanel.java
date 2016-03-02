@@ -39,18 +39,23 @@ public class SkylinePanel extends JPanel
       buildColor = foreground(theme);
       backColor = background(theme);
       horizonColor = horizon(theme);
-      
-      
+
       int xMark = 0;
       int yTall;
       int xWide;
       
-      while (xMark + 5 < SCREEN_WIDTH)
+      while (xMark + 21 < SCREEN_WIDTH)
       {
         xMark += (rand.nextInt(5) + 1);
         
-        yTall = 20 + rand.nextInt(GROUND/19) * 16;
         xWide = 20 + rand.nextInt(12) * 5;
+        
+        if (xWide + xMark > SCREEN_WIDTH)
+        {
+          xWide = SCREEN_WIDTH - xMark - 2;
+        }
+
+        yTall = 20 + (rand.nextInt(GROUND/19) * 16);
         
         buildings.add(new Building (xWide, yTall, xMark, GROUND, buildColor));
         
