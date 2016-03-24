@@ -47,7 +47,7 @@ public class Temperature
     set(temp);    
   }
   
-  // displayers both class parameters
+  // displays both class parameters
   public void writeOutput()
   {
     System.out.println(temperature + "˚" + type);

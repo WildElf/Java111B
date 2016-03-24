@@ -19,3 +19,6 @@ output*
 examples/*
 makefile
 assignments/06_Spaceship/examples/
+nonCreditHomework/
+tests/
+tutorials/

@@ -9,10 +9,13 @@
   @since: 2015-02-14
 */
 
+import java.util.*;
 import javax.swing.JPanel;
+//import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import sun.audio.*;
+import java.io.*;
 
 public class SpaceshipPanel extends JPanel
 {
@@ -20,29 +23,52 @@ public class SpaceshipPanel extends JPanel
   private Stars starField;
   private Color defaultShipColor, laserColor;
   private Starship starship;
+  private AudioStream sfx;
+//  private AudioInputStream sfx;
 
   private boolean mouseOnScreen;
-  private boolean starfieldCreated;
   private boolean fireAtTarget;
 
   private final int SHIP_SIZE = 100;
   private int screenWidth;
   private int screenHeight;
+  
   private int shotCount;
-  private long laserTime;
+  private SpaceshipControl countControl;
   
   public SpaceshipPanel(int w, int h)
   {
     mouseOnScreen = false;
-    starfieldCreated = false;
     fireAtTarget = false;
     screenWidth = w;
     screenHeight = h;
     laserColor = Color.red;
+    
+    String mp3 = "laser.mp3";
+    String au = "bonk.au";
+    try 
+    {
+      InputStream in = new FileInputStream(au);
+      try
+      {
+        sfx = new AudioStream(in);
+      }
+      catch (IOException ex)
+      {
+        System.out.println ("Error: " + ex);
+      }    
+    }
+    catch (FileNotFoundException ex)
+    {
+      System.out.println ("Error: " + ex);
+    }
+
+//    InputStream in = new FileInputStream(au);
+    
 
     starship = new Starship();
     defaultShipColor = starship.getBaseColor();
-   
+
     ShipListener listener = new ShipListener();
     addMouseListener (listener);
     addMouseMotionListener (listener);
@@ -58,7 +84,7 @@ public class SpaceshipPanel extends JPanel
     super.paintComponent (g);
     
     starField.draw(g);
-    
+
     if (mouseOnScreen) // only draw ship while mouse is on the screen
     {
       starship.draw(g);
@@ -82,7 +108,28 @@ public class SpaceshipPanel extends JPanel
     g.drawString("Shots: " + shotCount,24,35);
     
     // draw button
-    
+    countControl.update();
+  }
+  
+  public void setControl(SpaceshipControl control)
+  {
+    countControl = control;
+  }
+  
+  public boolean isCountZero()
+  {
+    return (shotCount == 0);
+  }
+  
+  public void resetCount()
+  {
+    shotCount = 0;
+    repaint();
+  }
+  
+  public int getCount()
+  {
+    return shotCount;
   }
   
   // draws the space ship based on a center point
@@ -118,7 +165,10 @@ public class SpaceshipPanel extends JPanel
       {
         laserTarget = acquireTarget();
         fireAtTarget = true;
+        if (shotCount == 0)
+          countControl.enableButton();
         shotCount++;
+//        AudioPlayer.player.start(sfx);
       }
       repaint();
     }
@@ -143,7 +193,7 @@ public class SpaceshipPanel extends JPanel
   private Point acquireTarget()
   {
     // set a new laser color
-    int colorShift = shotCount%6;
+    int colorShift = shotCount % 6;
     
     if (colorShift == 0)
       laserColor = Color.red;

@@ -8,8 +8,9 @@
   Draws a gradient horizon over the background
 #################################################
   @author: E. Jo Zimmerman
-  @version: 2.0
-  @since: 2015-02-09
+  @author: D. Duffy-Halseth
+  @version: 2.1
+  @since: 2015-03-07
 */
 
 import javax.swing.*;
@@ -18,12 +19,13 @@ import java.util.*;
 
 public class SkylinePanel extends JPanel
 {
-    
-   private ArrayList<Building> buildings = new ArrayList<Building>();
+   private Building building;
    private Color buildColor;
    private Color backColor;
    private Color horizonColor;
+   private Color nameColor;
    private Stars stars;
+   private String cityName;
    
    final int GROUND = 190;
    final int SCREEN_WIDTH = 300;
@@ -32,18 +34,52 @@ public class SkylinePanel extends JPanel
    //-----------------------------------------------------------------
    //  Constructor: Creates five building objects.
    //-----------------------------------------------------------------
-   public SkylinePanel(int theme)
+   public SkylinePanel()
    {
       Random rand = new Random();
-         	  
+      
+      int theme = rand.nextInt(3);
+      if (theme == 0)
+      {
+        cityName = new String("Night City");
+        nameColor = Color.yellow.brighter().brighter();
+      }
+      else if (theme == 1)
+      {
+        cityName = new String("Noir City");
+        nameColor = Color.white;
+      }
+      else // if (theme == 2)
+      {
+        cityName = new String("Morning City");
+        nameColor = Color.blue.darker();
+      }
+   	  
       buildColor = foreground(theme);
       backColor = background(theme);
       horizonColor = horizon(theme);
 
+      stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, theme);
+      setPreferredSize (new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+      setBackground (backColor);
+   }
+
+   //-----------------------------------------------------------------
+   //  Draws this panel by requesting that each building draw itself.
+   //-----------------------------------------------------------------
+   public void paintComponent (Graphics page)
+   {
+      super.paintComponent(page);
+
+      horizonGlow(page);
+      stars.draw(page);
+
+      // draw buildings
       int xMark = 0;
       int yTall;
       int xWide;
-      
+      Random rand = new Random();
+
       while (xMark + 21 < SCREEN_WIDTH)
       {
         xMark += (rand.nextInt(5) + 1);
@@ -57,31 +93,17 @@ public class SkylinePanel extends JPanel
 
         yTall = 20 + (rand.nextInt(GROUND/19) * 16);
         
-        buildings.add(new Building (xWide, yTall, xMark, GROUND, buildColor));
+        building = new Building (xWide, yTall, xMark, GROUND, buildColor);
+        building.draw(page);
         
         xMark += xWide;
       }
-      stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, theme);
-      setPreferredSize (new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-      setBackground (backColor);
-   }
-
-   //-----------------------------------------------------------------
-   //  Draws this panel by requesting that each building draw itself.
-   //-----------------------------------------------------------------
-   public void paintComponent (Graphics page)
-   {
-      super.paintComponent(page);
-
-      
-      horizonGlow(page);
-      stars.draw(page);
-
-      for (Building build : buildings)
-        build.draw(page);
 
       page.setColor(buildColor);
       page.fillRect(0, GROUND, SCREEN_WIDTH, SCREEN_HEIGHT - GROUND);
+
+      page.setColor(nameColor);
+      page.drawString(cityName, 15, 20);
    }
    
    void horizonGlow(Graphics hg)

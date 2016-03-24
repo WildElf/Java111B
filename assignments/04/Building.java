@@ -5,8 +5,9 @@
   using contrasting color scheme
 #########################################
   @author: E. Jo Zimmerman
-  @version: 2.0
-  @since: 2015-02-09
+  @author: D. Duffy-Halseth
+  @version: 2.1
+  @since: 2015-03-15
 */
 
 import javax.swing.*;
@@ -140,11 +141,11 @@ public class Building
   // small selection here based on SkylinePanel class building colors
   private Color setWindowColor(Color buildColor)
   {
-     if (buildColor == Color.gray)
-       return Color.cyan;
-     else if (buildColor == Color.darkGray)
-       return Color.orange;
+     if (buildColor == color.gray)
+       return color.cyan;
+     else if (buildColor == color.darkGray)
+       return color.orange;
      else
-       return Color.yellow;
+       return color.yellow;
   }
 }

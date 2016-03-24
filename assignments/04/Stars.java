@@ -5,8 +5,9 @@
   Also draws 10% of stars brighter
 ###########################################
   @author: E. Jo Zimmerman
-  @version: 1.0
-  @since: 2015-02-09
+  @author: D. Duffy-Halseth
+  @version: 1.1
+  @since: 2015-03-01
 */
 import javax.swing.*;
 import java.awt.*;
