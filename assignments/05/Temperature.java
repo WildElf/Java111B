@@ -136,7 +136,6 @@ public class Temperature
     System.out.println("Enter temperature scale (F/C): ");
     String scale = tempStr.next();
     set(scale.charAt(0));
-    
   }
    
 }
