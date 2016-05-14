@@ -17,18 +17,18 @@ public class Starship
   // main utility variables
   private Point shipCenter;
   private int shipSize;
-  
+
   // for drawing the ship
   private Polygon shipBodyTop, shipBodyMid, shipBodyLow;
   private Color shipColor, shipColorHigh, shipColorShade;
-  
+
 // *********************************
 // Begin Constructors
 // *********************************
 /**
   Default constructor
   Configures a starship shape and colors that can be drawn
-  
+
   @param  int  sets the size of the ship, default 100
   @param  Point  ship's center point, default new Point()
   @param  Color  ship's main color, from which a brighter and darker shade are made
@@ -40,7 +40,7 @@ public class Starship
     setColor(Color.gray);
     shipCenter = new Point();
   }
-  
+
 /**
   @param  Color  ship's main color, from which a brighter and darker shade are made
 */
@@ -62,7 +62,7 @@ public class Starship
     setColor(Color.gray);
     shipCenter = center;
   }
-  
+
 /**
   @param  int  ship's center point at x, to create new point, default Point.getx()
   @param  int  ship's center point at y, to create new point, default Point.gety()
@@ -73,7 +73,7 @@ public class Starship
     setColor(Color.gray);
     shipCenter = new Point(x,y);
   }
-  
+
 /**
   @param  int  sets the size of the ship, default 100
   @param  Point  ship's center point
@@ -84,7 +84,7 @@ public class Starship
     setColor(Color.gray);
     shipCenter = center;
   }
-  
+
 /**
   @param  int  sets the size of the ship, default 100
   @param  int  ship's center point at x, to create new point, default Point.getx()
@@ -96,7 +96,7 @@ public class Starship
     setColor(Color.gray);
     shipCenter = new Point(x,y);
   }
-  
+
 /**
   @param  Point  ship's center point
   @param  Color  ship's main color, from which a brighter and darker shade are made
@@ -107,7 +107,7 @@ public class Starship
     setColor(color);
     shipCenter = center;
   }
-  
+
 /**
   @param  int  ship's center point at x, to create new point, default Point.getx()
   @param  int  ship's center point at y, to create new point, default Point.gety()
@@ -119,7 +119,7 @@ public class Starship
     setColor(color);
     shipCenter = new Point(x,y);
   }
-  
+
 /**
   @param  int  sets the size of the ship, default 100
   @param  Point  ship's center point
@@ -143,7 +143,7 @@ public class Starship
     setColor(color);
     shipCenter = center;
   }
-  
+
 /**
   @param  int  sets the size of the ship, default 100
   @param  int  ship's center point at x, to create new point, default Point.getx()
@@ -155,7 +155,7 @@ public class Starship
     setSize(size);
     setColor(color);
     shipCenter = new Point(x,y);
-  } 
+  }
 // *********************************
 // End Constructors
 // *********************************
@@ -172,9 +172,9 @@ public class Starship
     else
       shipSize = 100;
   }
-  
+
 /**
-  @param Color  changes the value of the ship's base color 
+  @param Color  changes the value of the ship's base color
                 and derives the darker and brighter colors
 */
   public void setColor(Color color)
@@ -183,7 +183,7 @@ public class Starship
     shipColorShade = color.darker();
     shipColorHigh = color.brighter();
   }
-  
+
 /**
   @param Point  changes the value of the ship's center point
 */
@@ -191,7 +191,7 @@ public class Starship
   {
     shipCenter = center;
   }
-  
+
 /**
   uses two integers to update the ships center Point
   @param int  changes the value of the ship's x position
@@ -202,7 +202,7 @@ public class Starship
     shipCenter.x = x;
     shipCenter.y = y;
   }
-  
+
 /**
   @return Point  the value of the ship's center
 */
@@ -210,7 +210,7 @@ public class Starship
   {
     return shipCenter;
   }
-  
+
 /**
   @return Color  the value of the ship's primary color
 */
@@ -218,7 +218,7 @@ public class Starship
   {
     return shipColor;
   }
-  
+
 /**
   @return Color  the value of the ship's brighter color
 */
@@ -226,7 +226,7 @@ public class Starship
   {
     return shipColorHigh;
   }
-  
+
 /**
   @return Color  the value of the ship's darker color
 */
@@ -234,7 +234,7 @@ public class Starship
   {
     return shipColorShade;
   }
-  
+
 /**
   @return int  the value of the ship's size
 */
@@ -242,23 +242,23 @@ public class Starship
   {
     return shipSize;
   }
-    
+
   // draw the ship's parts with colors applied
   public void draw(Graphics g)
   {
     shipBodyMid = buildMiddleBody();
     shipBodyLow = buildLowBody();
-    shipBodyTop = buildTopBody();    
-    
+    shipBodyTop = buildTopBody();
+
     g.setColor(shipColor);
     g.fillPolygon(shipBodyMid);
-    
+
     g.setColor(shipColorShade);
     g.fillPolygon(shipBodyLow);
-    
+
     g.setColor(shipColorHigh);
     g.fillPolygon(shipBodyTop);
-	
+
   }
 // *********************************
 // End public methods
@@ -270,41 +270,41 @@ public class Starship
 */
   private Polygon buildMiddleBody()
   {
-    int[] midBodyX = { shipCenter.x-shipSize/2, shipCenter.x+shipSize/2, 
+    int[] midBodyX = { shipCenter.x-shipSize/2, shipCenter.x+shipSize/2,
             shipCenter.x+shipSize/2-shipSize/10, shipCenter.x-shipSize/2+shipSize/10 };
-    int[] midBodyY = { shipCenter.y, shipCenter.y, 
+    int[] midBodyY = { shipCenter.y, shipCenter.y,
             shipCenter.y-shipSize/10, shipCenter.y-shipSize/10 };
-    
-    return new Polygon(midBodyX, midBodyY, Array.getLength(midBodyX)); 
+
+    return new Polygon(midBodyX, midBodyY, Array.getLength(midBodyX));
   }
-  
+
 /**
   @return Polygon  a rhomboid based on ship size to serve as the ships lower body
 */
   private Polygon buildLowBody()
   {
-    int[] lowerBodyX = { (int)(shipCenter.x-shipSize/3), (int)(shipCenter.x+shipSize/3), 
+    int[] lowerBodyX = { (int)(shipCenter.x-shipSize/3), (int)(shipCenter.x+shipSize/3),
             (int)(shipCenter.x+shipSize/3-shipSize/10), (int)(shipCenter.x-shipSize/3+shipSize/10) };
-    int[] lowerBodyY = { shipCenter.y, shipCenter.y, 
+    int[] lowerBodyY = { shipCenter.y, shipCenter.y,
             shipCenter.y+shipSize/12, shipCenter.y+shipSize/12 };
-    
+
     return new Polygon(lowerBodyX, lowerBodyY, Array.getLength(lowerBodyX));
   }
-  
+
 /**
   @return Polygon  a rhomboid based on ship size to serve as the ships upper body
 */
   private Polygon buildTopBody()
   {
-    int[] topBodyX = { shipCenter.x-shipSize/5, shipCenter.x+shipSize/5, 
+    int[] topBodyX = { shipCenter.x-shipSize/5, shipCenter.x+shipSize/5,
             shipCenter.x+shipSize/6, shipCenter.x+shipSize/8,
              shipCenter.x-shipSize/8, shipCenter.x-shipSize/6 };
-    int[] topBodyY = { shipCenter.y-shipSize/10, shipCenter.y-shipSize/10, 
+    int[] topBodyY = { shipCenter.y-shipSize/10, shipCenter.y-shipSize/10,
             shipCenter.y-shipSize/8, shipCenter.y-shipSize/7,
              shipCenter.y-shipSize/7, shipCenter.y-shipSize/8 };
-    
+
     return new Polygon(topBodyX, topBodyY, Array.getLength(topBodyX));
-  
+
   }
 
 }

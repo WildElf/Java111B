@@ -18,22 +18,22 @@ public class Star
   private Point position;
   private int brightness;
   private Color color;
-  
+
   public Star()
   {
     position = new Point(0,0);
     setBrightness();
     color = makeColor();
-    
+
   }
-  
+
   public Star(int x, int y)
   {
     position = new Point(x, y);
     setBrightness();
     color = makeColor();
   }
-  
+
   public Star(Point p)
   {
     position = p;
@@ -47,34 +47,34 @@ public class Star
     brightness = b;
     color = makeColor();
   }
-  
+
   public Star(Point p, int b)
   {
     position = p;
     brightness = b;
     color = makeColor();
   }
-  
+
   public Point getPosition()
   {
     return position;
   }
-  
+
   public int getX()
   {
     return position.x;
   }
-  
+
   public int getY()
   {
     return position.y;
   }
-  
+
   public Color getColor()
   {
     return color;
   }
-  
+
   public int getBrightness()
   {
     return brightness;
@@ -99,22 +99,22 @@ public class Star
         starColor = Color.magenta.brighter();
 
     }
-    
+
     return starColor;
   }
-  
+
   private void setBrightness()
   {
     int randBright = (int)(Math.random()*1000);
 
     if (randBright < 10)
     {
-      if (randBright == 0) 
+      if (randBright == 0)
         brightness = 10; // 1 in 1000 is a super bright star
       else
         brightness = 9; // 1 in 100 stars are brighter
     }
-    else if (randBright < 110) 
+    else if (randBright < 110)
       brightness = 0; // one in ~10 is a point that's a shade of white
     else if (randBright < 205)
       brightness = 1;
@@ -127,10 +127,10 @@ public class Star
     else if (randBright < 600)
       brightness = 5;
     else if (randBright < 725)
-      brightness = 6; 
+      brightness = 6;
     else if (randBright < 850)
       brightness = 7;
     else
-      brightness = 8; // this will be a normal white star	
+      brightness = 8; // this will be a normal white star
   }
 }

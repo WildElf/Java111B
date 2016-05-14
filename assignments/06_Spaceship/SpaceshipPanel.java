@@ -5,17 +5,23 @@
 
 #########################################
   @author: E. Jo Zimmerman
-  @version: 1.0
-  @since: 2015-02-14
+  @author: D. Duffy-Halseth
+  @version: 1.2
+  @since: 2015-04-07
 */
 
 import java.util.*;
 import javax.swing.JPanel;
-//import javax.sound.sampled.*;
+import javax.sound.sampled.*;
+import javax.sound.sampled.spi.*;
 import java.awt.*;
 import java.awt.event.*;
 import sun.audio.*;
 import java.io.*;
+
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 
 public class SpaceshipPanel extends JPanel
 {
@@ -23,11 +29,11 @@ public class SpaceshipPanel extends JPanel
   private Stars starField;
   private Color defaultShipColor, laserColor;
   private Starship starship;
-  private AudioStream sfx;
-//  private AudioInputStream sfx;
+  private AudioClip laser;
 
   private boolean mouseOnScreen;
   private boolean fireAtTarget;
+  private boolean soundSet;
 
   private final int SHIP_SIZE = 100;
   private int screenWidth;
@@ -43,28 +49,11 @@ public class SpaceshipPanel extends JPanel
     screenWidth = w;
     screenHeight = h;
     laserColor = Color.red;
-    
-    String mp3 = "laser.mp3";
-    String au = "bonk.au";
-    try 
-    {
-      InputStream in = new FileInputStream(au);
-      try
-      {
-        sfx = new AudioStream(in);
-      }
-      catch (IOException ex)
-      {
-        System.out.println ("Error: " + ex);
-      }    
-    }
-    catch (FileNotFoundException ex)
-    {
-      System.out.println ("Error: " + ex);
-    }
 
-//    InputStream in = new FileInputStream(au);
-    
+    // sound loading
+    String au = "laser.au";    
+    URL soundLoad = SpaceshipPanel.class.getResource(au);
+    laser = Applet.newAudioClip(soundLoad);
 
     starship = new Starship();
     defaultShipColor = starship.getBaseColor();
@@ -132,6 +121,16 @@ public class SpaceshipPanel extends JPanel
     return shotCount;
   }
   
+  public void soundOn()
+  {
+    soundSet = true;
+  }
+  
+  public void soundOff()
+  {
+    soundSet = false;
+  }
+  
   // draws the space ship based on a center point
   private class ShipListener implements MouseListener,
                                          MouseMotionListener
@@ -166,9 +165,10 @@ public class SpaceshipPanel extends JPanel
         laserTarget = acquireTarget();
         fireAtTarget = true;
         if (shotCount == 0)
-          countControl.enableButton();
+          countControl.enableReset();
         shotCount++;
-//        AudioPlayer.player.start(sfx);
+        if (soundSet)
+          laser.play();
       }
       repaint();
     }
@@ -177,16 +177,18 @@ public class SpaceshipPanel extends JPanel
     public void mouseReleased (MouseEvent event) 
     {
       fireAtTarget = false; 
-      repaint();
+//      repaint();
     }
 
-    // move the ship during laser fire
-    public void mouseDragged (MouseEvent event) 
+/*    // move the ship during laser fire
+    public void mouseDragged (MouseEvent event)
     {
       starship.setPosition(event.getPoint());
       repaint();
     }
-    // unused event
+*/
+    // unused event(s)
+    public void mouseDragged (MouseEvent event) {}
     public void mouseClicked (MouseEvent event) {}
   }
     

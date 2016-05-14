@@ -24,7 +24,7 @@ public class Spaceship
      final int SCREEN_HEIGHT = 400;
      JFrame frame = new JFrame ("Spaceship");
      frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-     
+
      SpaceshipPanel spaceship = new SpaceshipPanel(SCREEN_WIDTH,SCREEN_HEIGHT);
      SpaceshipControl control = new SpaceshipControl(spaceship);
 //     spaceship.setControl(control);
