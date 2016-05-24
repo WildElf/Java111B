@@ -1,0 +1,3 @@
+rm *.class 2>/dev/null
+javac MagazineView.java
+

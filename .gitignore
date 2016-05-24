@@ -18,7 +18,8 @@ output*
 *.class
 examples/*
 makefile
-assignments/06_Spaceship/examples/
+compile
 nonCreditHomework/
 tests/
 tutorials/
+science/
